@@ -1,0 +1,9 @@
+{
+  "name": "kora",
+  "version": "1.0.0",
+  "description": "Weekly football match organiser: attendance, balanced lineups, pitch cost split, MVP vote. Static, private, Arabic and English.",
+  "scripts": { "test": "node --test tests/core.test.js", "test:e2e": "node tests/e2e.js", "serve": "python3 -m http.server 8080 --directory docs" },
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/yousefkhames/kora.git" },
+  "devDependencies": { "puppeteer-core": "^24" }
+}

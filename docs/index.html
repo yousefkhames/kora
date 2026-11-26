@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kora</title>
+<meta name="description" content="Kora: organise your weekly football match. Attendance, balanced lineups, pitch cost split and MVP vote..">
+<meta name="theme-color" content="#1f7a46">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app" aria-live="polite"></div>
+<div id="modal" hidden></div>
+<div id="toast" role="status" hidden></div>
+<input type="file" id="importFile" accept="application/json,.json" hidden>
+<noscript>Kora needs JavaScript.</noscript>
+<script src="core.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+<script>if ("serviceWorker" in navigator) addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });</script>
+</body>
+</html>
