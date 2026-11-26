@@ -9,6 +9,15 @@
   <img src="assets/matches-ar.png" width="200" alt="Arabic right-to-left interface">
 </p>
 
+## Screenshots
+
+Captured from the live site (https://yousefkhames.github.io/kora/).
+
+<p>
+  <img src="docs/screenshots/live-desktop.png" alt="kora desktop view" width="640">
+  <img src="docs/screenshots/live-mobile.png" alt="kora mobile view" width="200">
+</p>
+
 ## The pitch
 
 Every week the same group chat chaos: who is in, who is out, who brings the bibs, who owes the pitch money, who was the best player. Kora puts all of it in one small app that runs in the browser. No account, no server, nothing to install.
