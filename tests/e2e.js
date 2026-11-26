@@ -70,6 +70,10 @@ const log = (m) => console.log(`  ✓ ${++step}. ${m}`);
     await click('[data-act="guest-del"]'); // removes first guest, waitlisted promoted
     assert.doesNotMatch(await text(), /on the waitlist/); log('removing a guest promotes the waitlist');
     await click('[data-act="copy-invite"]');
+    await page.evaluate(() => { window.open = (u) => { window.__opened = u; return {}; }; });
+    await page.$eval('[data-act="wa-invite"]', e => e.click()); // the copy toast can overlap the button at the bottom
+    await page.waitForFunction(() => /^https:\/\/wa\.me\/\?text=/.test(window.__opened || '') && /football/.test(decodeURIComponent(window.__opened)));
+    log('Send on WhatsApp opens wa.me with the invite text');
     await page.waitForFunction(() => window.__lastCopied && /football/.test(window.__lastCopied));
     const inv = await page.evaluate(() => window.__lastCopied);
     assert.match(inv, /Thursday Warriors/); assert.match(inv, /12 spots/); log('invite message is copied with the group name');
@@ -152,7 +156,7 @@ const log = (m) => console.log(`  ✓ ${++step}. ${m}`);
     await nav('#/'); await act('match-new', '.btn');
     await page.waitForSelector('#modal input[name=date]');
     await page.$eval('#modal input[name=date]', e => { e.value = '2030-01-10'; });
-    await page.type('#modal input[name=venue]', 'Test Pitch'); await click('#modal button[type=submit]');
+    await page.$eval('#modal input[name=venue]', e => { e.focus(); e.value = 'Test Pitch'; }); await click('#modal button[type=submit]');
     await page.waitForSelector('.seg, .card');
     assert.match(await page.evaluate(() => location.hash), /#\/m\/.+\/att/); log('new match created and opened');
     await act('match-dup');

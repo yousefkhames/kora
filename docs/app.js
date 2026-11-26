@@ -41,6 +41,7 @@
     table: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
     gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9L7 7M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>',
     plus: '<path d="M12 5v14M5 12h14"/>', back: '<path d="M15 5l-7 7 7 7"/>', trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+    share: '<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 11l7.6-4M8.2 13l7.6 4"/>',
     edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/>', copy: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 00-1-1H5a1 1 0 00-1 1v10a1 1 0 001 1h3"/>',
     swap: '<path d="M7 7h12l-3-3M17 17H5l3 3"/>', check: '<path d="M5 12l5 5 9-10"/>', cal: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>'
   };
@@ -57,6 +58,11 @@
     el.textContent = msg; el.hidden = false;
     clearTimeout(toast._t);
     toast._t = setTimeout(function () { el.hidden = true; }, 2600);
+  }
+  function shareWa(text) {
+    const url = 'https://wa.me/?text=' + encodeURIComponent(text);
+    window.__lastWa = url;
+    const w = window.open(url, '_blank', 'noopener'); if (!w) location.href = url;
   }
   function copyText(text) {
     const done = function () { toast(t('copied')); };
@@ -173,7 +179,7 @@
       '<div class="row">' + (a.waitlist.length ? '<span class="chip warn">' + t('waitlistN', { n: a.waitlist.length }) + '</span>' : '') + (a.maybe.length ? '<span class="chip">' + t('maybeN', { n: a.maybe.length }) + '</span>' : '') + '</div></div>' +
       '<div class="bar" style="margin:10px 0"><i style="width:' + pct + '%"></i></div><p class="muted small" style="margin:0">' + t('capacityNote', { cap: a.capacity }) + '</p></div>' +
       '<div class="card">' + (S.players.length ? '<div class="plist">' + rows + guests + '</div>' : '<p class="muted">' + t('noPlayers') + '</p><a class="btn" href="#/players">' + t('addPlayer') + '</a>') + '</div>' +
-      '<div class="row wrap"><button class="btn soft" data-act="guest-add" data-id="' + m.id + '">' + ic('plus') + t('addGuest') + '</button><button class="btn ghost" data-act="copy-invite" data-id="' + m.id + '">' + ic('copy') + t('copyInvite') + '</button></div>';
+      '<div class="row wrap"><button class="btn soft" data-act="guest-add" data-id="' + m.id + '">' + ic('plus') + t('addGuest') + '</button><button class="btn ghost" data-act="copy-invite" data-id="' + m.id + '">' + ic('copy') + t('copyInvite') + '</button><button class="btn ghost" data-act="wa-invite" data-id="' + m.id + '">' + ic('share') + t('sendWa') + '</button></div>';
   }
 
   function teamName(k) { return k === 'A' ? t('teamA') : t('teamB'); }
@@ -222,7 +228,7 @@
       return '<div class="card"><div class="row between"><div class="row"><span class="tdot" style="background:' + (k === 'A' ? '#fff' : '#ffb703') + '"></span><h2 style="margin:0">' + teamName(k) + '</h2></div><span class="chip">' + t('total', { n: strength(k) }) + '</span></div>' +
         (L.hasGK ? '' : '<p class="muted small" style="margin:6px 0 0">' + t('noKeeper') + '</p>') + '<div class="plist" style="margin-top:6px">' + rows + '</div></div>';
     };
-    return '<div class="pitchwrap">' + pitchSvg(m) + '</div><div class="row wrap" style="margin-bottom:12px"><button class="btn" data-act="teams-reshuffle" data-id="' + m.id + '">' + ic('swap') + t('reshuffle') + '</button><button class="btn ghost" data-act="copy-lineup" data-id="' + m.id + '">' + ic('copy') + t('copyLineup') + '</button></div>' +
+    return '<div class="pitchwrap">' + pitchSvg(m) + '</div><div class="row wrap" style="margin-bottom:12px"><button class="btn" data-act="teams-reshuffle" data-id="' + m.id + '">' + ic('swap') + t('reshuffle') + '</button><button class="btn ghost" data-act="copy-lineup" data-id="' + m.id + '">' + ic('copy') + t('copyLineup') + '</button><button class="btn ghost" data-act="wa-lineup" data-id="' + m.id + '">' + ic('share') + t('sendWa') + '</button></div>' +
       '<p class="muted small">' + t('teamsHelp') + '</p><div class="teams">' + card('A') + card('B') + '</div>';
   }
 
@@ -252,7 +258,7 @@
       '<div class="card"><div class="row between"><div><div class="muted small">' + t('totalCost') + '</div><b style="font-size:1.4rem">' + money(tot) + '</b></div><div style="text-align:end"><div class="muted small">' + t('perHead') + '</div><b style="font-size:1.4rem">' + (sh.ids.length ? money(sh.split.per[0]) : '—') + '</b></div></div>' +
       (sh.split.surplus ? '<p class="muted small" style="margin:8px 0 0">' + t('surplus', { n: money(sh.split.surplus) }) + '</p>' : '') + '</div>' +
       '<div class="card">' + (sh.ids.length ? '<div class="row between small" style="margin-bottom:6px"><b>' + t('collected', { a: money(sh.paid), b: money(sh.split.collected) }) + '</b><span class="chip ' + (sh.outstanding ? 'warn' : 'ok') + '">' + (sh.outstanding ? t('outstanding', { n: money(sh.outstanding) }) : t('allPaid')) + '</span></div><div class="bar"><i style="width:' + pct + '%"></i></div><div class="plist" style="margin-top:8px">' + rows + '</div>' +
-        '<button class="btn ghost" style="margin-top:10px" data-act="copy-pay" data-id="' + m.id + '"' + (sh.outstanding ? '' : ' disabled') + '>' + ic('copy') + t('copyPay') + '</button>' : '<p class="muted">' + t('noParticipants') + '</p>') + '</div>';
+        '<button class="btn ghost" style="margin-top:10px" data-act="copy-pay" data-id="' + m.id + '"' + (sh.outstanding ? '' : ' disabled') + '>' + ic('copy') + t('copyPay') + '</button><button class="btn ghost" data-act="wa-pay" data-id="' + m.id + '"' + (sh.outstanding ? '' : ' disabled') + '>' + ic('share') + t('sendWa') + '</button>' : '<p class="muted">' + t('noParticipants') + '</p>') + '</div>';
   }
 
   function secResult(m) {
@@ -439,6 +445,9 @@
     rsvp: function (d) { const m = currentMatch(); const cur = m.rsvp[d.id]; C.setRsvp(m, d.id, cur === d.v ? 'none' : d.v); rerender(); },
     'guest-add': function (d) { guestForm(getMatch(d.id)); },
     'guest-del': function (d) { C.removeGuest(currentMatch(), d.id); rerender(); },
+    'wa-invite': function (d) { shareWa(inviteText(getMatch(d.id))); },
+    'wa-lineup': function (d) { shareWa(lineupText(getMatch(d.id))); },
+    'wa-pay': function (d) { shareWa(payText(getMatch(d.id))); },
     'copy-invite': function (d) { copyText(inviteText(getMatch(d.id))); },
     'teams-make': function (d) { C.autoTeams(getMatch(d.id), S, false); rerender(); },
     'teams-reshuffle': function (d) { C.autoTeams(getMatch(d.id), S, true); rerender(); },

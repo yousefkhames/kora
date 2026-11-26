@@ -63,3 +63,9 @@ The browser test clicks through the whole app on a phone-size screen: demo squad
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## Fonts, WhatsApp and limits (round 2)
+
+- Cairo (SIL OFL) is bundled in `docs/fonts/` (woff2) and precached by the service worker.
+- Invite, lineup and payment reminder each have **Send on WhatsApp** next to Copy. It opens WhatsApp's own share screen with the text, so you pick the group. Tested as a generated wa.me link, not against a live WhatsApp account.
+- Data stays in this browser (localStorage). Back up and restore from Settings; restore asks first.

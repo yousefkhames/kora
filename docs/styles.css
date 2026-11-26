@@ -3,7 +3,7 @@
   --bg:#f3f0e6; --card:#fffdf7; --ink:#10231a; --muted:#5d6b62; --line:#ded9c8; --soft:#ebe7d8;
   --lime:#d7ff3f; --warn:#d9480f; --ok:#1f7a46; --shadow:0 1px 0 rgba(16,35,26,.06),0 8px 24px -12px rgba(16,35,26,.25);
   --teamA:#ffffff; --teamB:#ffb703; --radius:16px;
-  --font: system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic","Noto Naskh Arabic",Tahoma,sans-serif;
+  --font: "Cairo", system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic","Noto Naskh Arabic",Tahoma,sans-serif;
 }
 :root[data-theme=dark]{
   --bg:#0c1712; --card:#13241b; --ink:#eef3e8; --muted:#9db0a2; --line:#24392d; --soft:#1a2e23; --shadow:0 8px 24px -12px rgba(0,0,0,.6);

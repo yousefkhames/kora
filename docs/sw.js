@@ -1,5 +1,5 @@
-const CACHE = 'kora-v1';
-const FILES = ['./', 'index.html', 'styles.css', 'core.js', 'i18n.js', 'app.js', 'logo.svg', 'manifest.webmanifest', 'icon-512.png'];
+const CACHE = 'kora-v2';
+const FILES = ['fonts/fonts.css','fonts/Cairo-arabic.woff2','fonts/Cairo-latin.woff2','./', 'index.html', 'styles.css', 'core.js', 'i18n.js', 'app.js', 'logo.svg', 'manifest.webmanifest', 'icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 // network first so updates show up, cache as the offline fallback
