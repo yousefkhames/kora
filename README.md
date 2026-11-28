@@ -78,3 +78,10 @@ MIT. See [LICENSE](LICENSE).
 - Cairo (SIL OFL) is bundled in `docs/fonts/` (woff2) and precached by the service worker.
 - Invite, lineup and payment reminder each have **Send on WhatsApp** next to Copy. It opens WhatsApp's own share screen with the text, so you pick the group. Tested as a generated wa.me link, not against a live WhatsApp account.
 - Data stays in this browser (localStorage). Back up and restore from Settings; restore asks first.
+
+
+## Demo / portfolio project
+
+Static GitHub Pages site. Data stays in your browser. Sample data is fictional and results are not professional, legal, medical or financial advice.
+
+By Yousef Khames · من تطوير يوسف خميس
